@@ -11,7 +11,7 @@ Research:
 3. miss_10bestDays.ipynb: verify a reported statement that if you miss out on the 10 best days of the market per decade since 1930, then your overall return would just be 28%
 
 Deployment:
-1. production_script.py: a real production script I used with automation logic including order-execution, sleep-time logic, error-handling, emailing, and housekeeping checks (daylight time savings, market open, early close, account balance); deployed on Amazon Web Services (AWS) cloud EC2 instance, scheduled via crontab
+1. production_script.py: a real production script I used to automate a trading strategy; includes order-execution, sleep-time logic, error-handling, emailing, and housekeeping-checks (daylight time savings, market open, early close, account balance); deployed on Amazon Web Services (AWS) cloud EC2 instance, scheduled via crontab
 
 My Approach:
 1. overview.txt
