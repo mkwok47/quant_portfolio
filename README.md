@@ -1,5 +1,9 @@
 # Quant Portfolio
-Samples of real code I wrote and use for personal algorithmic trading activities. Main APIs I work with are Alpaca Markets and TD Ameritrade (for both data and brokerage order execution). The purpose of the code shared is more so to exhibit infrastructure/development at a general level as opposed to sharing novel research findings.
+Samples of real code I wrote and use for personal algorithmic trading activities. The purpose of the code shared is more so to exhibit infrastructure at a higher level as opposed to sharing novel research findings.
+
+My Approach:
+1. overview.txt
+2. pillars_of_truth.txt
 
 Data Functionalities:
 1. minute_functions.py: functions that assist with researching and backtesting at the minutely-level
@@ -11,8 +15,9 @@ Research:
 3. miss_10bestDays.ipynb: verify a reported statement that if you miss out on the 10 best days of the market per decade since 1930, then your overall return would just be 28%
 
 Deployment:
-1. production_script.py: a real production script I used to automate a trading strategy; includes order-execution, sleep-time logic, error-handling, emailing, and housekeeping-checks (daylight time savings, market open, early close, account balance); deployed on Amazon Web Services (AWS) cloud EC2 instance, scheduled via crontab
+1. production_script.py: a real production script I used to automate a trading strategy via brokerage in the cloud; includes order-execution, sleep-time logic, error-handling, emailing, and housekeeping-checks (e.g. daylight time savings)
 
-My Approach:
-1. overview.txt
-2. pillars_of_truth.txt
+Main Tools & Technologies:
+1. Python, SQL, Linux Command Line Interface (CLI), Git
+2. Alpaca Markets and TD Ameritrade APIs for data and brokerage
+3. Amazon Web Services (AWS) cloud EC2 instance, crontab automation
