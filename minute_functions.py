@@ -31,7 +31,8 @@ def view_utc_offsets(df_input):
     if len(unique_time_diffs) != 2:
         raise ValueError('check utc offset')
     
-def obtain_data(tickers, timeframes, action=None, start_date='2000-01-01', end_date=str(datetime.datetime.today().date() - datetime.timedelta(days=1))):
+def obtain_data(tickers, timeframes, action=None, start_date='2000-01-01', \
+                end_date=str(datetime.datetime.today().date() - datetime.timedelta(days=1))):
     
     '''
     PURPOSE: obtain dictionary of dataframes
@@ -52,13 +53,15 @@ def obtain_data(tickers, timeframes, action=None, start_date='2000-01-01', end_d
             
             dicts[ticker][timeframe]['df'] = dicts[ticker][timeframe]['df'][dicts[ticker][timeframe]['df']['timestamp_pacific'] < end_date]
             
-            dicts[ticker][timeframe]['df'].loc[(dicts[ticker][timeframe]['df']['timestamp_pacific'].dt.time >= market_open_time) & (dicts[ticker][timeframe]['df']['timestamp_pacific'].dt.time <= market_close_time), 'market_hours'] = 'regular'
-            dicts[ticker][timeframe]['df'].loc[(dicts[ticker][timeframe]['df']['timestamp_pacific'].dt.time < market_open_time), 'market_hours'] = 'premarket'
-            dicts[ticker][timeframe]['df'].loc[(dicts[ticker][timeframe]['df']['timestamp_pacific'].dt.time > market_close_time), 'market_hours'] = 'aftermarket'
+            dicts[ticker][timeframe]['df'].loc[(dicts[ticker][timeframe]['df']['timestamp_pacific'].dt.time >= market_open_time) \
+                  & (dicts[ticker][timeframe]['df']['timestamp_pacific'].dt.time <= market_close_time), 'market_hours'] = 'regular'
+            dicts[ticker][timeframe]['df'].loc[(dicts[ticker][timeframe]['df']['timestamp_pacific'].dt.time < market_open_time), \
+                  'market_hours'] = 'premarket'
+            dicts[ticker][timeframe]['df'].loc[(dicts[ticker][timeframe]['df']['timestamp_pacific'].dt.time > market_close_time), \
+                  'market_hours'] = 'aftermarket'
             print(len(dicts[ticker][timeframe]['df']), timeframe)
             view_utc_offsets(dicts[ticker][timeframe]['df'])
             dicts[ticker]['unique_dates'] = dicts[ticker][timeframe]['df']['timestamp_pacific'].dt.date.unique()
-            # dicts[ticker]['unique_dates']  = [x for x in dicts[ticker]['unique_dates'] if (x.weekday() <= 4 and len(dicts[ticker][timeframe]['df'][dicts[ticker][timeframe]['df']['timestamp_pacific'].dt.date==x])>=100)] # 2nd part takes too long, do in-research
             dicts[ticker]['unique_dates']  = [x for x in dicts[ticker]['unique_dates'] if x.weekday() <= 4]
             print(ticker, len(dicts[ticker]['unique_dates']), 'days')
             display(dicts[ticker][timeframe]['df'])
@@ -123,6 +126,7 @@ def obtain_daily_attributes(dicts, timeframe, min_length):
         
         for unique_date in unique_dates:
             for col in ['day_open', 'day_high', 'day_low', 'day_close']:
-                dicts[ticker][timeframe]['df'].loc[dicts[ticker][timeframe]['df']['timestamp_pacific'].dt.date==unique_date, col] = daily_df[daily_df.index==unique_date][col][0]
+                dicts[ticker][timeframe]['df'].loc[dicts[ticker][timeframe]['df']['timestamp_pacific'].dt.date==unique_date, col] \
+                = daily_df[daily_df.index==unique_date][col][0]
 
     return dicts
