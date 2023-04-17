@@ -1,5 +1,5 @@
 # Portfolio
-Samples of code I wrote and use for personal algorithmic trading activities. Main APIs I work with are Alpaca Markets and TD Ameritrade. I intentionally leave out novel / useful findings for obvious reasons.
+Samples of real code I wrote and use for personal algorithmic trading activities. Main APIs I work with are Alpaca Markets and TD Ameritrade. I intentionally do not include any novel/useful findings for obvious reasons.
 
 Data Functionalities:
 1. minute_functions.py: functions that assist with researching and backtesting at the minutely-level
@@ -7,8 +7,8 @@ Data Functionalities:
 
 Research:
 1. selling_option_prem.ipynb: analyze probabilities of ITM/OTM option expiration and associated premiums
-2. top_gainers_effect.ipynb: analyze the following interday gap (if any) and intraday change following a day of high gain for top gainers
+2. top_gainers_effect.ipynb: analyze the following interday gap and intraday change following a day of high gain for top gainers
 3. miss_10bestDays.ipynb: verify a reported statement that if you miss out on the 10 best days of the market per decade since 1930, then your overall return would just be 28%
 
 Deployment:
-1. production_script.py: sample production logic including sleep-time logic, error-handling, emailing, and housekeeping checks (daylight time savings, market open, early close, account balance); Deployed on Amazon Web Services (AWS) cloud EC2 instance, scheduled via crontab.
+1. production_script.py: a real production script I used with automation logic including order-execution, sleep-time logic, error-handling, emailing, and housekeeping checks (daylight time savings, market open, early close, account balance); deployed on Amazon Web Services (AWS) cloud EC2 instance, scheduled via crontab
