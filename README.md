@@ -1,5 +1,5 @@
 # Quant Portfolio
-Samples of real code I wrote and use for personal algorithmic trading activities. The purpose of the code shared is more so to exhibit infrastructure at a higher level as opposed to sharing novel research findings.
+Samples of real code I wrote and use for personal algorithmic trading activities. The purpose is more so to showcase infrastructure as opposed to share meaningful research findings.
 
 My Approach:
 1. overview.txt
