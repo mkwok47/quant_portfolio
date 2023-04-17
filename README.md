@@ -1,2 +1,2 @@
 # portfolio
-Samples of code I wrote for personal algorithmic trading activities
+Samples of code I wrote and use for personal algorithmic trading activities
