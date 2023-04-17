@@ -1,5 +1,5 @@
-# Portfolio
-Samples of real code I wrote and use for personal algorithmic trading activities. Main APIs I work with are Alpaca Markets and TD Ameritrade. I intentionally do not include any novel/useful findings for obvious reasons.
+# Quant Portfolio
+Samples of real code I wrote and use for personal algorithmic trading activities. Main APIs I work with are Alpaca Markets and TD Ameritrade (for both data and brokerage order execution). For obvious reasons, the focus of the code shared is more so development/pipeline than research findings.
 
 Data Functionalities:
 1. minute_functions.py: functions that assist with researching and backtesting at the minutely-level
