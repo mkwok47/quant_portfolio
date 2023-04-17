@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 """
 Created on Mon Mar 14 02:47:27 2022
-
 @author: michaelkwok
+PURPOSE: functions to assist with working with minutely-level stock price datasets
 """
 
 import datetime
