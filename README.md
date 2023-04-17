@@ -1,5 +1,5 @@
 # Portfolio
-Samples of code I wrote and use for personal algorithmic trading activities. Main APIs I work with are Alpaca and TDA. I intentionally leave out novel / useful findings for obvious reasons.
+Samples of code I wrote and use for personal algorithmic trading activities. Main APIs I work with are Alpaca Markets and TD Ameritrade. I intentionally leave out novel / useful findings for obvious reasons.
 
 Data Functionalities:
 1. minute_functions.py: functions that assist with researching and backtesting at the minutely-level
