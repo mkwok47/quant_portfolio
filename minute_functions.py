@@ -2,8 +2,13 @@
 # -*- coding: utf-8 -*-
 """
 Created on Mon Mar 14 02:47:27 2022
+
+NOTES
+- premarket < 6:30
+- 6:30 <= regular < 13
+- 13 <= aftermarket
+
 @author: michaelkwok
-PURPOSE: functions to assist with working with minutely-level stock price datasets
 """
 
 import datetime
@@ -18,10 +23,6 @@ market_close_time = datetime.time(13)
 # =============================================================================
 
 def view_utc_offsets(df_input):
-  
-    '''
-    PURPOSE: deal with daylight time savings, ensure data is as expected
-    '''
     
     df = df_input.copy(deep=True)
     unique_time_diffs = df['timestamp_pacific_str'].str[-5:].unique()
@@ -31,11 +32,9 @@ def view_utc_offsets(df_input):
     if len(unique_time_diffs) != 2:
         raise ValueError('check utc offset')
     
-def obtain_data(tickers, timeframes, action=None, start_date='2000-01-01', \
-                end_date=str(datetime.datetime.today().date() - datetime.timedelta(days=1))):
+def obtain_data(tickers, timeframes, action=None, start_date='2000-01-01', end_date=str(datetime.datetime.today().date() - datetime.timedelta(days=1)), min_length=100):
     
     '''
-    PURPOSE: obtain dictionary of dataframes
     note: unique_dates will be in pacific time
     '''
     
@@ -53,25 +52,36 @@ def obtain_data(tickers, timeframes, action=None, start_date='2000-01-01', \
             
             dicts[ticker][timeframe]['df'] = dicts[ticker][timeframe]['df'][dicts[ticker][timeframe]['df']['timestamp_pacific'] < end_date]
             
-            dicts[ticker][timeframe]['df'].loc[(dicts[ticker][timeframe]['df']['timestamp_pacific'].dt.time >= market_open_time) \
-                  & (dicts[ticker][timeframe]['df']['timestamp_pacific'].dt.time <= market_close_time), 'market_hours'] = 'regular'
-            dicts[ticker][timeframe]['df'].loc[(dicts[ticker][timeframe]['df']['timestamp_pacific'].dt.time < market_open_time), \
-                  'market_hours'] = 'premarket'
-            dicts[ticker][timeframe]['df'].loc[(dicts[ticker][timeframe]['df']['timestamp_pacific'].dt.time > market_close_time), \
-                  'market_hours'] = 'aftermarket'
+            dicts[ticker][timeframe]['df'].loc[(dicts[ticker][timeframe]['df']['timestamp_pacific'].dt.time >= market_open_time) & (dicts[ticker][timeframe]['df']['timestamp_pacific'].dt.time < market_close_time), 'market_hours'] = 'regular'
+            dicts[ticker][timeframe]['df'].loc[(dicts[ticker][timeframe]['df']['timestamp_pacific'].dt.time < market_open_time), 'market_hours'] = 'premarket'
+            dicts[ticker][timeframe]['df'].loc[(dicts[ticker][timeframe]['df']['timestamp_pacific'].dt.time >= market_close_time), 'market_hours'] = 'aftermarket'
             print(len(dicts[ticker][timeframe]['df']), timeframe)
             view_utc_offsets(dicts[ticker][timeframe]['df'])
+            
+            # drop sparse data days e.g. holidays and unwanted weekend data + incomplete AM day-of data
+            temp_df = dicts[ticker][timeframe]['df'].groupby(dicts[ticker][timeframe]['df']['timestamp_pacific'].dt.date)[['open']].agg(len)
+            temp_df.rename(columns={'open': 'num_rows_per_day'}, inplace=True)
+            dicts[ticker][timeframe]['df'].reset_index(inplace=True) # preserve timestamp index
+            dicts[ticker][timeframe]['df'] = dicts[ticker][timeframe]['df'].merge(temp_df, how='left', left_on=dicts[ticker][timeframe]['df']['timestamp_pacific'].dt.date, right_on=temp_df.index)
+            dicts[ticker][timeframe]['df'].drop(columns=['key_0'], inplace=True)
+            dicts[ticker][timeframe]['df'].set_index('timestamp', inplace=True)
+            
+            print('Dropping', len(dicts[ticker][timeframe]['df'][dicts[ticker][timeframe]['df']['num_rows_per_day'] < min_length]), 'rows where num_rows_per_day <', min_length)
+            dicts[ticker][timeframe]['df'] = dicts[ticker][timeframe]['df'][dicts[ticker][timeframe]['df']['num_rows_per_day'] >= min_length]
+            print('Dropping', len(dicts[ticker][timeframe]['df'][dicts[ticker][timeframe]['df']['timestamp_pacific'].dt.weekday > 4]), 'rows of weekend data')
+            dicts[ticker][timeframe]['df'] = dicts[ticker][timeframe]['df'][dicts[ticker][timeframe]['df']['timestamp_pacific'].dt.weekday <= 4]
+                        
             dicts[ticker]['unique_dates'] = dicts[ticker][timeframe]['df']['timestamp_pacific'].dt.date.unique()
-            dicts[ticker]['unique_dates']  = [x for x in dicts[ticker]['unique_dates'] if x.weekday() <= 4]
             print(ticker, len(dicts[ticker]['unique_dates']), 'days')
-            display(dicts[ticker][timeframe]['df'])
+            print(dicts[ticker][timeframe]['df'].shape)
+            display(dicts[ticker][timeframe]['df'].head())
+            display(dicts[ticker][timeframe]['df'].tail())
             
     return dicts
 
 def obtain_conjunction(ticker_descript_dict, dicts, timeframe, tail_n=1000000):
     
     '''
-    PURPOSE: join bull/bear ETF datasets together
     ticker_descript_dict = {'LABU':'bull', 'LABD':'bear'}
     '''
         
@@ -100,33 +110,74 @@ def obtain_conjunction(ticker_descript_dict, dicts, timeframe, tail_n=1000000):
     
     return conjunction_df
 
-def obtain_daily_attributes(dicts, timeframe, min_length):
+def obtain_daily_attributes(dicts, timeframe, min_length=100):
     
     '''
-    PURPOSE: join day-level price data with minute-level price data
     uses minutely data to infer daily data (to maintain consistency of data source)
+    uses min_length to get rid of unwanted data
     '''
     
     for ticker in dicts.keys():
-        unique_dates = dicts[ticker]['unique_dates'].copy()
-        df = dicts[ticker][timeframe]['df'].copy(deep=True)
-        daily_df = pd.DataFrame()
         
-        for unique_date in unique_dates:
-            temp_df = df[(df['timestamp_pacific'].dt.date == unique_date) & (df['market_hours']=='regular')].copy(deep=True)
-            if len(temp_df) < min_length:
-                continue
-            daily_df.at[unique_date, 'day_open'] = temp_df['open'].iloc[0]
-            daily_df.at[unique_date, 'day_high'] = max(temp_df['high'])
-            daily_df.at[unique_date, 'day_low'] = min(temp_df['low'])
-            daily_df.at[unique_date, 'day_close'] = temp_df['close'].iloc[-1]
+        df = dicts[ticker][timeframe]['df'].copy()
+        unique_dates = dicts[ticker]['unique_dates'].copy()
+        daily_df = pd.DataFrame(unique_dates, columns=['timestamp']) # timestamp is already pacific
+        
+        # preferred open (6:30 open)
+        temp_df = df[(df['timestamp_pacific'].dt.time==market_open_time)][['timestamp_pacific', 'open']].copy()
+        temp_df.rename(columns={'timestamp_pacific':'timestamp_pacific_DROP', 'open':'day_open'}, inplace=True)
+        daily_df = daily_df.merge(temp_df, how='left', left_on=daily_df['timestamp'], right_on=temp_df['timestamp_pacific_DROP'].dt.date)
+        daily_df.drop(columns=['timestamp_pacific_DROP', 'key_0'], inplace=True)
+        
+        # backup open (first regular hours min open)
+        temp_df = df[df['market_hours']=='regular'].groupby(df['timestamp_pacific'].dt.date)['open'].agg(lambda x: x.iloc[0] if len(x) >= min_length else pd.NA).reset_index().copy()
+        temp_df.rename(columns={'timestamp_pacific':'timestamp_pacific_DROP', 'open':'day_open_BACKUP'}, inplace=True)
+        daily_df = daily_df.merge(temp_df, how='left', left_on=daily_df['timestamp'], right_on=temp_df['timestamp_pacific_DROP'])
+        daily_df.drop(columns=['timestamp_pacific_DROP', 'key_0'], inplace=True)
+        
+        # high
+        temp_df = df[df['market_hours']=='regular'].groupby(df['timestamp_pacific'].dt.date)['high'].agg(lambda x: max(x) if len(x) >= min_length else pd.NA).reset_index().copy()
+        temp_df.rename(columns={'timestamp_pacific':'timestamp_pacific_DROP', 'high':'day_high'}, inplace=True)
+        daily_df = daily_df.merge(temp_df, how='left', left_on=daily_df['timestamp'], right_on=temp_df['timestamp_pacific_DROP'])
+        daily_df.drop(columns=['timestamp_pacific_DROP', 'key_0'], inplace=True) 
+        
+        # low
+        temp_df = df[df['market_hours']=='regular'].groupby(df['timestamp_pacific'].dt.date)['low'].agg(lambda x: min(x) if len(x) >= min_length else pd.NA).reset_index().copy()
+        temp_df.rename(columns={'timestamp_pacific':'timestamp_pacific_DROP', 'low':'day_low'}, inplace=True)
+        daily_df = daily_df.merge(temp_df, how='left', left_on=daily_df['timestamp'], right_on=temp_df['timestamp_pacific_DROP'])
+        daily_df.drop(columns=['timestamp_pacific_DROP', 'key_0'], inplace=True)
+        
+        # preferred close (13:00 open)
+        temp_df = df[(df['timestamp_pacific'].dt.time==market_close_time)][['timestamp_pacific', 'open']].copy()
+        temp_df.rename(columns={'timestamp_pacific':'timestamp_pacific_DROP', 'open':'day_close'}, inplace=True)
+        daily_df = daily_df.merge(temp_df, how='left', left_on=daily_df['timestamp'], right_on=temp_df['timestamp_pacific_DROP'].dt.date)
+        daily_df.drop(columns=['timestamp_pacific_DROP', 'key_0'], inplace=True)
+        
+        # backup close (last regular hours min close)
+        temp_df = df[df['market_hours']=='regular'].groupby(df['timestamp_pacific'].dt.date)['close'].agg(lambda x: x.iloc[-1] if len(x) >= min_length else pd.NA).reset_index().copy()
+        temp_df.rename(columns={'timestamp_pacific':'timestamp_pacific_DROP', 'close':'day_close_BACKUP'}, inplace=True)
+        daily_df = daily_df.merge(temp_df, how='left', left_on=daily_df['timestamp'], right_on=temp_df['timestamp_pacific_DROP'])
+        daily_df.drop(columns=['timestamp_pacific_DROP', 'key_0'], inplace=True)
+        
+        daily_df.set_index('timestamp', inplace=True)
+        print('daily_df created')
+        display(daily_df.isna().sum())
+        
+        # fill missing preferred close with backup close
+        if daily_df.isna().sum()['day_close'] > 0:
+            print('Filling in', daily_df.isna().sum()['day_close'], 'days of missing preferred close (13:00 open) with backup close (last regular hours min close)')
+            daily_df.loc[pd.isna(daily_df['day_close']), 'day_close'] = daily_df['day_close_BACKUP']
+        daily_df.drop(columns=['day_close_BACKUP'], inplace=True)
             
+        # fill missing preferred open with backup open
+        if daily_df.isna().sum()['day_open'] > 0:
+            print('Filling in', daily_df.isna().sum()['day_open'], 'days of missing preferred open (6:30 open) with backup open (first regular hours min open)')
+            daily_df.loc[pd.isna(daily_df['day_open']), 'day_open'] = daily_df['day_open_BACKUP']
+        daily_df.drop(columns=['day_open_BACKUP'], inplace=True)
+        
+        # return
         dicts[ticker]['day'] = {}
         dicts[ticker]['day']['df'] = daily_df
-        
-        for unique_date in unique_dates:
-            for col in ['day_open', 'day_high', 'day_low', 'day_close']:
-                dicts[ticker][timeframe]['df'].loc[dicts[ticker][timeframe]['df']['timestamp_pacific'].dt.date==unique_date, col] \
-                = daily_df[daily_df.index==unique_date][col][0]
+        dicts[ticker][timeframe]['df'] = dicts[ticker][timeframe]['df'].merge(daily_df, how='left', left_on=dicts[ticker][timeframe]['df']['timestamp_pacific'].dt.date, right_index=True)
 
     return dicts
