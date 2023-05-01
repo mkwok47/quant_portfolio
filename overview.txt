@@ -1,7 +1,7 @@
 I have been used Python to create and backtest original trading strategies since 2019 and began deploying to production (for personal-use) in 2022.
-I focus on combining creativity, intuition, open-mindedness, and the scientific method.
+I focus on combining creativity with the scientific method.
 I embrace the spirit of exploration and see things for myself rather than take somebody else’s word for it.
-I approach research from a practicality-first mindset because at the end of the day, performance in the real world is what matters.
+I approach research with a practicality-first mindset because real-world performance is the ultimate goal.
 
 What I look for in my algos:
 1. Statistically significant number of backtested trades = luck is not in the equation
