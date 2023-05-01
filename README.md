@@ -18,6 +18,6 @@ Deployment:
 1. production_script.py: a real production script I used to automate a trading strategy via brokerage in the cloud; includes order-execution, sleep-time logic, error-handling, emailing, and housekeeping-checks (e.g. daylight time savings)
 
 Main Tools & Technologies:
-1. Python, SQL, Linux Command Line Interface (CLI), Git
+1. Python/Pandas, SQL, Linux Command Line Interface (CLI), Git
 2. Alpaca Markets and TD Ameritrade APIs for data and brokerage
 3. Amazon Web Services (AWS) cloud EC2 instance, crontab automation
