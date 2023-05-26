@@ -5,7 +5,7 @@ Samples of real code I wrote and use for personal algorithmic trading activities
     1. overview.txt
     2. pillars_of_truth.txt
 2. Research:
-    1. utils/alpaca_table2.py: create and maintain stock price datasets (primarily at the minutely-level) in local SQL database via sqlite3
+    1. utils/alpaca_table2.py: create and maintain stock price datasets in local SQL database via sqlite3
     2. utils/minute_functions.py: functions that assist with researching and backtesting at the minutely-level
     3. selling_option_prem.ipynb: analyze probabilities of ITM/OTM option expiration and associated premiums
     4. top_gainers_effect.ipynb: analyze the following interday gap and intraday change following a day of high gain for top gainers
