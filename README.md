@@ -1,9 +1,9 @@
 # Quant Portfolio
 Samples of real code I wrote and use for personal algorithmic trading activities. The purpose is more so to showcase infrastructure as opposed to share meaningful research findings.
 
-My Approach:
-1. overview.txt
-2. pillars_of_truth.txt
+1. My Approach:
+    1. overview.txt
+    2. pillars_of_truth.txt
 
 Data Functionalities:
 1. minute_functions.py: functions that assist with researching and backtesting at the minutely-level
