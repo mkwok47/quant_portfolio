@@ -11,10 +11,10 @@ Samples of real code I wrote and use for personal algorithmic trading activities
     4. top_gainers_effect.ipynb: analyze the following interday gap and intraday change for top gainers
     5. miss_10bestDays.ipynb: verify a reported statement regarding missing out on the 10 best days of the market per decade
 3. Deployment:
-    1. utils/production_functions.py: functions that assist with production, including order-execution and emailing
-    2. production_script.py: a generalized, sample production script I use to automate a trading strategy via brokerage in the cloud
+    1. utils/production_functions.py: functions that assist with production, including order-execution
+    2. production_script.py: a generalized production script I use to automate trading strategies
 
 Tools & Technologies:
-1. Python/Pandas, SQL, Linux CLI, Git
+1. Python/Pandas, SQL, Linux Command Line, Git
 2. Alpaca Markets and TD Ameritrade APIs for data and brokerage
-3. Amazon Web Services (AWS) cloud EC2 instance, crontab automation
+3. Amazon Web Services cloud EC2 instance, crontab automation
