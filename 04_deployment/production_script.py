@@ -129,15 +129,14 @@ def run_script(production):
     import pytz
     import time
     import traceback
+    import json
     
     from tda import auth, client
     from tda.orders.common import EquityInstruction, OrderType, Session, \
         Duration, OrderStrategyType
     from tda.orders.generic import OrderBuilder
-    
     from alpaca_trade_api.rest import REST
-    import json
-    
+   
     import stock_list
     
     try:
