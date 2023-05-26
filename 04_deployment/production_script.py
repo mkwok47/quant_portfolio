@@ -8,15 +8,15 @@ CRONTAB 6:20am
 @author: michaelkwok
 """
 
+script_name = 'SAMPLE'
+contact = not production
+capital = 5000
+account_min = 26000
+account_goal = 50000
+
 global_message = ''
 
 def run_script(production):
-    
-    script_name = 'SAMPLE'
-    contact = not production
-    capital = 5000
-    account_min = 26000
-    account_goal = 50000
     
     import smtplib, ssl
     from datetime import datetime, date
@@ -31,6 +31,8 @@ def run_script(production):
     from tda.orders.generic import OrderBuilder
     from alpaca_trade_api.rest import REST
    
+    from production_functions import send_email, handle_message, sleep_func, auth_tda, check_delist, \
+        get_last_price, buy_market, sell_market
     import stock_list
     
     try:
@@ -41,9 +43,9 @@ def run_script(production):
         tickers = stock_list.tickers
     
         # daylight savings time
-        if datetime.now(pytz.timezone("US/Pacific")).tzinfo._dst != 0: # is DST
+        if datetime.now(pytz.timezone("US/Pacific")).tzinfo._dst != 0:  # is DST
             handle_message('\n\nDST: true, continuing script')
-        else: # is NOT DST
+        else:  # is NOT DST
             handle_message('\n\nDST: false, sleeping for 1 hour')
             if production:
                 time.sleep(60*60)
@@ -67,9 +69,7 @@ def run_script(production):
             sleep_func(wake_time)
 
     # =============================================================================
-    # =============================================================================
     # ENTRY
-    # =============================================================================
     # =============================================================================
         
         c = auth_tda()
@@ -96,17 +96,13 @@ def run_script(production):
                                {datetime.now(pytz.timezone("US/Pacific")).time()} PST')
 
     # =============================================================================
-    # =============================================================================
     # EXIT
-    # =============================================================================
     # =============================================================================
                     
     # (REMOVED)
 
     # =============================================================================
-    # =============================================================================
     # DELIST
-    # =============================================================================
     # =============================================================================
         
         c = auth_tda()
@@ -121,9 +117,7 @@ def run_script(production):
                 continue
             
     # =============================================================================
-    # =============================================================================
     # ACC BAL
-    # =============================================================================
     # =============================================================================
             
         c = auth_tda()
