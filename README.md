@@ -1,5 +1,5 @@
 # Quant Portfolio
-Samples of real code I wrote and use for personal algorithmic trading activities from 2019-present.
+Some reflections, code, and findings generated from my algorithmic trading activities.
 
 1. My Approach:
     1. overview.txt
