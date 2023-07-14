@@ -2,7 +2,7 @@
 Samples of reflections, code, & findings generated from 2000+ hobbyist hours of self-taught algorithmic-trading.
 
 1. My Approach:
-    1. **overview.txt**
+    1. [**overview.txt**](https://github.com/mkwok47/quant_portfolio/blob/main/01_my_approach/overview.txt)
     2. **pillars_of_truth.txt**
 2. Research:
     1. **utils/alpaca_table2.py:** create and maintain stock price datasets in local SQL database via sqlite3
