@@ -1,5 +1,5 @@
 # Quant Portfolio
-Some reflections, code, and findings generated from my algorithmic trading activities.
+Snippets of reflections, code, and findings generated from 2000+ hours of algorithmic trading activities.
 
 1. My Approach:
     1. **overview.txt**
