@@ -13,7 +13,7 @@ Snippets of reflections, code, and findings generated from 2000+ hobbyist hours 
 3. Deployment:
     1. **utils/production_functions.py:** functions that assist with production, including order-execution
     2. **production_script.py:** a generalized production script I use to automate trading strategies
-    3. **real_strategy.pdf:** backtest results of a real trading strategy I made and have deployed
+    3. **real_strategy.pdf:** backtest results of a real trading strategy I made and currently have deployed
 
 Tools & Technologies:
 1. Python/Pandas, SQL, Linux Command Line, Git
