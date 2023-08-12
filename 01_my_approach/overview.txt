@@ -1,6 +1,6 @@
-I have been used Python to create and backtest original trading strategies since 2019 and began deploying to production (for personal-use) in 2022.
-I focus on combining creativity with the scientific method.
-I embrace the spirit of exploration and see things for myself rather than take somebody else’s word for it.
+I've used Python to develop original trading strategies since 2019 and deploy to production since 2022.
+I combine intuitive, creative thinking with the scientific method.
+I embrace the pioneer spirit and see things for myself rather than take somebody else’s word for it.
 I approach research with a practicality-first mindset because real-world performance is the ultimate goal.
 
 What I look for in my algos:
@@ -13,4 +13,4 @@ What I look for in my algos:
 
 There’s no saying whether something will work until it works in practice, for example against obstacles like illiquidity and slippage.
 Even if something is working, it may just be a matter of time until it stops working. 
-There are often more ways for things to go wrong than right, so continual monitoring and innovation is key.
+There are often more ways for things to go wrong than right, so continual monitoring and innovation is vital.
