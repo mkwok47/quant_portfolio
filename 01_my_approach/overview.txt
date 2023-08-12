@@ -1,16 +1,17 @@
 I use Python to develop and deploy original trading strategies.
 I combine intuitive, creative thinking with the scientific method.
-I embrace the pioneer spirit and see things for myself rather than take somebody else’s word for it.
-I approach research with a practicality-first mindset because real-world performance is the ultimate goal.
+I embrace the pioneer spirit and see things for myself.
+I approach research with a practicality-first mindset.
 
 What I look for in my algos:
 1. Statistically significant number of backtested trades = luck is not in the equation
 2. Based on an unambiguous set of rules = repeatable and automatable
-3. Zero correlation with underlying and market = success is timeless and independent of everchanging fundamentals, news, and events
-4. Returns that significantly beat buy-hold underlying and market = the results are worth the extra costs and effort of trading
+3. Zero correlation w/ underlying and market = success is timeless and independent of everchanging fundamentals
+4. Returns that significantly beat buy-hold underlying and market = results are worth the extra effort of trading
 5. Minimal parameters = minimal risk of overfitting
 6. Minimal drawdown = maximum happiness
 
-There’s no saying whether something will work until it works in practice, for example against obstacles like illiquidity and slippage.
+There’s no saying whether something will work until it works in practice.
+Examples of obstacles are illiquidity and slippage.
 Even if something is working, it may just be a matter of time until it stops working. 
 There are often more ways for things to go wrong than right, so continual monitoring and innovation is vital.
