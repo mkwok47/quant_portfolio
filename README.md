@@ -1,5 +1,5 @@
 # Quant Portfolio
-Samples of reflections, code, & findings generated from 2000+ hobbyist hours of self-taught algorithmic-trading from 2019-present.
+Reflections, code, & findings generated from 2000+ hobbyist hours of self-taught algorithmic-trading 2019-present.
 
 1. My Approach:
     1. [overview.txt](https://github.com/mkwok47/quant_portfolio/blob/main/01_my_approach/overview.txt)
