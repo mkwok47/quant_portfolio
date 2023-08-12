@@ -1,4 +1,4 @@
-I've used Python to develop original trading strategies since 2019 and deploy to production since 2022.
+I use Python to develop and deploy original trading strategies.
 I combine intuitive, creative thinking with the scientific method.
 I embrace the pioneer spirit and see things for myself rather than take somebody else’s word for it.
 I approach research with a practicality-first mindset because real-world performance is the ultimate goal.
