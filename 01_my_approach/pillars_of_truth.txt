@@ -2,9 +2,7 @@ THEORY OF KNOWLEDGE:
 What is true, to what extent, why, and how do you know?
 
 COGNITIVE BIASES: 
-For survival, humans tend to believe they know things, and they’re inclined to keep confirming they’re right rather than try to prove themselves wrong 
-(confirmation bias). Potential reasons are they want to be right (wishfulness), they don’t want to be wrong (ego), and/or there are just not enough 
-resources (time, energy) or necessity to acquire more knowledge and challenge one’s beliefs. The more you know, the more you realize you don’t know. 
+For survival, humans tend to believe they know things (overconfidence bias), and they’re inclined to keep confirming they’re right rather than try to prove themselves wrong (confirmation bias). Potential reasons are they want to be right (optimism bias), they don’t want to be wrong (ego), and/or there are just not enough resources (time, energy) or necessity to acquire more knowledge and challenge one’s beliefs. The more you know, the more you realize you don’t know. 
 In the noble search for truth, it is important to avoid these biases.
 
 INFINITE POSSIBILITIES: 
