@@ -1,5 +1,5 @@
 # Quant Portfolio
-Samples of reflections, code, & findings from 2000+ hobbyist hours of self-taught algorithmic trading 2019-present. Portfolio focus is more so development and infrastructure than meaningful research findings.
+Samples of reflections, code, & findings from 2000+ hours of self-taught algorithmic trading 2019-present as a hobby. Portfolio focus is development and infrastructure rather than meaningful research findings.
 
 1. My Approach:
     1. [overview.txt](https://github.com/mkwok47/quant_portfolio/blob/main/01_my_approach/overview.txt)
